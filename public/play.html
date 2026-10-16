@@ -1,86 +1,34 @@
-[build]
-  publish = "public"
-  functions = "netlify/functions"
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Memutar — ZerozxStream</title>
+<link rel="stylesheet" href="/css/play.css">
+</head>
+<body>
 
-[functions]
-  node_bundler = "esbuild"
+<header class="header">
+  <button class="back-btn" onclick="goBack()">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    Kembali
+  </button>
+  <a class="logo" href="/">
+    <span class="z">Z</span><span class="rest">erozx</span><span class="dot">Stream</span>
+  </a>
+</header>
 
-# ============ API REDIRECTS ============
-[[redirects]]
-  from = "/api/movies"
-  to = "/.netlify/functions/movies"
-  status = 200
-  force = true
+<main class="wrap" id="main">
+  <div class="player-box">
+    <div class="player-aspect">
+      <div class="fallback">
+        <div class="spinner"></div>
+        <p>Memuat player...</p>
+      </div>
+    </div>
+  </div>
+</main>
 
-[[redirects]]
-  from = "/api/stream"
-  to = "/.netlify/functions/stream"
-  status = 200
-  force = true
-
-[[redirects]]
-  from = "/api/anime"
-  to = "/.netlify/functions/anime"
-  status = 200
-  force = true
-
-# ============ ANIME ROUTES ============
-[[redirects]]
-  from = "/anime/watch"
-  to = "/anime-watch.html"
-  status = 200
-
-[[redirects]]
-  from = "/anime/search"
-  to = "/anime.html"
-  status = 200
-
-[[redirects]]
-  from = "/anime"
-  to = "/anime.html"
-  status = 200
-
-# ============ PLAY ROUTES ============
-[[redirects]]
-  from = "/play/*"
-  to = "/play.html"
-  status = 200
-
-# ============ MAIN ROUTES ============
-[[redirects]]
-  from = "/home"
-  to = "/index.html"
-  status = 200
-
-[[redirects]]
-  from = "/search"
-  to = "/index.html"
-  status = 200
-
-[[redirects]]
-  from = "/favorites"
-  to = "/index.html"
-  status = 200
-
-[[redirects]]
-  from = "/history"
-  to = "/index.html"
-  status = 200
-
-[[redirects]]
-  from = "/profile"
-  to = "/index.html"
-  status = 200
-
-# ============ 404 FALLBACK ============
-[[redirects]]
-  from = "/*"
-  to = "/404.html"
-  status = 404
-
-# ============ SECURITY HEADERS ============
-[[headers]]
-  for = "/*"
-  [headers.values]
-    X-Frame-Options = "SAMEORIGIN"
-    X-Content-Type-Options = "nosniff"
+<script src="/js/play.js"></script>
+</body>
+</html>
