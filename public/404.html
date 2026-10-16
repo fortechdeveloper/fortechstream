@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>404 — Halaman Tidak Ditemukan | ZerozxStream</title>
+<link rel="stylesheet" href="/css/style.css">
+<style>
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #0a0a0f;
+    color: #f5f5f7;
+    overflow-x: hidden;
+  }
+
+  /* ===== Animated Background Mesh ===== */
+  .bg-mesh {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+  .bg-mesh::before,
+  .bg-mesh::after {
+    content: '';
+    position: absolute;
+    width: 60vmax;
+    height: 60vmax;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: .22;
+    will-change: transform;
+  }
+  .bg-mesh::before {
+    background: radial-gradient(circle, #e50914 0%, transparent 65%);
+    top: -20vmax;
+    left: -15vmax;
+    animation: float1 18s ease-in-out infinite;
+  }
+  .bg-mesh::after {
+    background: radial-gradient(circle, #7a0fbf 0%, transparent 65%);
+    bottom: -25vmax;
+    right: -20vmax;
+    animation: float2 22s ease-in-out infinite;
+  }
+  @keyframes float1 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(15vw, 10vh) scale(1.15); }
+  }
+  @keyframes float2 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(-12vw, -8vh) scale(1.2); }
+  }
+
+  /* Grid overlay halus */
+  .bg-grid {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    background-image:
+      linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse at center, #000 30%, transparent 75%);
+    -webkit-mask-image: radial-gradient(ellipse at center, #000 30%, transparent 75%);
+    pointer-events: none;
+  }
+
+  /* Partikel */
+  .particles {
+    position: fixed;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  .particle {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: #ff2233;
+    opacity: 0;
+    box-shadow: 0 0 8px 2px rgba(229,9,20,.7);
+    animation: rise linear infinite;
+  }
+  @keyframes rise {
+    0% { transform: translateY(0) scale(0); opacity: 0; }
+    15% { opacity: .9; transform: translateY(-10vh) scale(1); }
+    85% { opacity: .6; }
+    100% { transform: translateY(-110vh) scale(.4); opacity: 0; }
+  }
+
+  /* ===== Layout ===== */
+  .err-page {
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    position: relative;
+    z-index: 3;
+  }
+
+  .err-card {
+    max-width: 580px;
+    width: 100%;
+    text-align: center;
+    padding: 56px 36px 44px;
+    background: linear-gradient(160deg, rgba(20,20,28,.85), rgba(10,10,15,.9));
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 28px;
+    backdrop-filter: blur(24px) saturate(140%);
+    -webkit-backdrop-filter: blur(24px) saturate(140%);
+    box-shadow:
+      0 30px 90px rgba(0,0,0,.75),
+      0 0 0 1px rgba(255,255,255,.03) inset,
+      0 -30px 80px rgba(229,9,20,.08) inset;
+    animation: popIn .65s cubic-bezier(.2,.9,.3,1) both;
+    position: relative;
+    overflow: hidden;
+  }
+  .err-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 10%;
+    right: 10%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #e50914, #ff2233, transparent);
+    opacity: .8;
+  }
+  .err-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -60%;
+    width: 60%;
+    height: 100%;
+    background: linear-gradient(120deg, transparent, rgba(255,255,255,.06), transparent);
+    transform: skewX(-20deg);
+    animation: shine 6s ease-in-out infinite;
+    pointer-events: none;
+  }
+  @keyframes shine {
+    0%, 60%, 100% { left: -60%; }
+    30% { left: 130%; }
+  }
+
+  @keyframes popIn {
+    from { opacity: 0; transform: scale(.94) translateY(24px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+
+  /* ===== Icon ===== */
+  .err-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 104px;
+    height: 104px;
+    margin: 0 auto 26px;
+    border-radius: 50%;
+    background:
+      radial-gradient(circle at 30% 30%, rgba(229,9,20,.28), rgba(229,9,20,.06));
+    border: 2px solid rgba(229,9,20,.4);
+    color: #ff2233;
+    position: relative;
+    animation: pulse 2.4s ease-in-out infinite;
+  }
+  .err-icon::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: 50%;
+    background: conic-gradient(from 0deg, transparent, #e50914, transparent 40%);
+    -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 2px), #000 calc(100% - 2px));
+    mask: radial-gradient(farthest-side, transparent calc(100% - 2px), #000 calc(100% - 2px));
+    animation: spin 4s linear infinite;
+    opacity: .8;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(229,9,20,.45); }
+    50% { box-shadow: 0 0 0 24px rgba(229,9,20,0); }
+  }
+  .err-icon svg {
+    width: 48px;
+    height: 48px;
+    stroke-width: 2;
+    position: relative;
+    z-index: 1;
+    animation: iconBob 3s ease-in-out infinite;
+  }
+  @keyframes iconBob {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-3px); }
+  }
+
+  /* ===== 404 Text ===== */
+  .err-code {
+    font-size: clamp(64px, 12vw, 88px);
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: -4px;
+    background: linear-gradient(135deg, #ff2233 0%, #e50914 50%, #b0060f 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 10px;
+    filter: drop-shadow(0 6px 24px rgba(229,9,20,.5));
+    animation: codeFloat 4s ease-in-out infinite;
+  }
+  @keyframes codeFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+  }
+
+  .err-title {
+    font-size: 23px;
+    font-weight: 800;
+    color: #f5f5f7;
+    margin: 0 0 14px;
+    letter-spacing: -.4px;
+  }
+
+  .err-desc {
+    color: #92929e;
+    font-size: 15px;
+    line-height: 1.75;
+    margin: 0 auto 34px;
+    max-width: 440px;
+  }
+  .err-desc span {
+    color: #c9c9d1;
+    font-weight: 600;
+  }
+
+  /* ===== Buttons ===== */
+  .err-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .err-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    padding: 14px 28px;
+    border-radius: 13px;
+    font-size: 14.5px;
+    font-weight: 700;
+    transition: all .3s cubic-bezier(.2,.9,.3,1);
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+    font-family: inherit;
+    white-space: nowrap;
+    position: relative;
+    overflow: hidden;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .err-btn svg { flex-shrink: 0; }
+
+  .err-btn.primary {
+    background: linear-gradient(135deg, #e50914, #ff2233);
+    color: #fff;
+    box-shadow:
+      0 10px 30px rgba(229,9,20,.5),
+      0 0 0 1px rgba(255,255,255,.12) inset;
+  }
+  .err-btn.primary::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, #ff2233, #ff5566);
+    opacity: 0;
+    transition: opacity .3s;
+  }
+  .err-btn.primary:hover::before { opacity: 1; }
+  .err-btn.primary > * { position: relative; z-index: 1; }
+  .err-btn.primary:hover {
+    transform: translateY(-3px);
+    box-shadow:
+      0 18px 45px rgba(229,9,20,.7),
+      0 0 0 1px rgba(255,255,255,.2) inset;
+  }
+  .err-btn.primary:active { transform: translateY(-1px) scale(.98); }
+
+  .err-btn.ghost {
+    background: rgba(255,255,255,.06);
+    border: 1px solid rgba(255,255,255,.12);
+    color: #f5f5f7;
+    backdrop-filter: blur(10px);
+  }
+  .err-btn.ghost:hover {
+    background: rgba(255,255,255,.13);
+    border-color: rgba(255,255,255,.25);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px rgba(0,0,0,.4);
+  }
+  .err-btn.ghost:active { transform: translateY(-1px) scale(.98); }
+
+  /* ===== URL Box ===== */
+  .err-url {
+    margin-top: 30px;
+    padding: 14px 18px;
+    background: rgba(0,0,0,.45);
+    border: 1px solid rgba(255,255,255,.06);
+    border-radius: 12px;
+    font-family: 'SF Mono', 'Courier New', monospace;
+    font-size: 12px;
+    color: #8a8a96;
+    word-break: break-all;
+    text-align: left;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    transition: border-color .3s, background .3s;
+  }
+  .err-url:hover {
+    border-color: rgba(229,9,20,.3);
+    background: rgba(229,9,20,.05);
+  }
+  .err-url .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #ff2233;
+    box-shadow: 0 0 10px #ff2233;
+    flex-shrink: 0;
+    margin-top: 5px;
+    animation: blink 1.6s ease-in-out infinite;
+  }
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: .3; }
+  }
+  .err-url strong {
+    color: #ff2233;
+    font-weight: 700;
+  }
+
+  /* Hint kecil */
+  .err-hint {
+    margin-top: 20px;
+    font-size: 12.5px;
+    color: #5c5c68;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+  .err-hint kbd {
+    display: inline-block;
+    padding: 2px 7px;
+    background: rgba(255,255,255,.07);
+    border: 1px solid rgba(255,255,255,.1);
+    border-bottom-width: 2px;
+    border-radius: 5px;
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 700;
+    color: #b0b0bc;
+  }
+
+  /* ===== Responsive ===== */
+  @media (max-width: 520px) {
+    .err-card {
+      padding: 44px 22px 34px;
+      border-radius: 22px;
+    }
+    .err-icon {
+      width: 88px;
+      height: 88px;
+    }
+    .err-icon svg {
+      width: 40px;
+      height: 40px;
+    }
+    .err-title { font-size: 20px; }
+    .err-desc { font-size: 14px; }
+    .err-actions { flex-direction: column; }
+    .err-btn { width: 100%; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: .01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: .01ms !important;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-mesh"></div>
+<div class="bg-grid"></div>
+<div class="particles" id="particles"></div>
+
+<div class="err-page">
+  <div class="err-card">
+
+    <div class="err-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"/>
+        <path d="M12 8v5M12 16h.01"/>
+      </svg>
+    </div>
+
+    <div class="err-code">404</div>
+    <h1 class="err-title">Halaman Tidak Ditemukan</h1>
+    <p class="err-desc">
+      Sepertinya halaman yang kamu cari sudah <span>dipindahkan</span>, <span>dihapus</span>,
+      atau memang <span>tidak pernah ada</span>. Cek kembali URL-nya, atau kembali
+      ke beranda untuk lanjut streaming.
+    </p>
+
+    <div class="err-actions">
+      <a href="/home" class="err-btn primary">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        <span>Kembali ke Beranda</span>
+      </a>
+      <button class="err-btn ghost" onclick="history.back()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        <span>Halaman Sebelumnya</span>
+      </button>
+    </div>
+
+    <div class="err-url">
+      <span class="dot"></span>
+      <div>
+        <strong>URL diminta:</strong> <span id="errUrl"></span>
+      </div>
+    </div>
+
+    <div class="err-hint">
+      Tekan <kbd>Esc</kbd> untuk kembali ke beranda
+    </div>
+
+  </div>
+</div>
+
+<script>
+  const urlEl = document.getElementById("errUrl");
+  if (urlEl) {
+    const full = location.href;
+    urlEl.textContent = full.length > 80 ? full.slice(0, 80) + '…' : full;
+    urlEl.title = full;
+  }
+
+  (function makeParticles() {
+    const wrap = document.getElementById('particles');
+    if (!wrap) return;
+    const count = window.innerWidth < 600 ? 14 : 26;
+    for (let i = 0; i < count; i++) {
+      const p = document.createElement('span');
+      p.className = 'particle';
+      p.style.left = Math.random() * 100 + 'vw';
+      p.style.bottom = '-10px';
+      p.style.animationDuration = (8 + Math.random() * 10) + 's';
+      p.style.animationDelay = (Math.random() * 12) + 's';
+      const size = 2 + Math.random() * 3;
+      p.style.width = size + 'px';
+      p.style.height = size + 'px';
+      p.style.opacity = .3 + Math.random() * .5;
+      wrap.appendChild(p);
+    }
+  })();
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') location.href = '/home';
+  });
+</script>
+
+</body>
+</html>
