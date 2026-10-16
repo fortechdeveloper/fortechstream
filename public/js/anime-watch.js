@@ -1,8 +1,8 @@
 /* =========================================================
-   ZerozxStream — anime-watch.js
-   Player Anime (v3 — smooth loading, 404-style error)
+   FortechStream — anime-watch.js
+   Player Anime — smooth loading + clean error page
    URL: /anime/watch?url=...
-   Creator: @Zerozx
+   Creator: FortechDev
    ========================================================= */
 
 const API = "/api/anime";
@@ -15,7 +15,7 @@ function esc(s=""){
 const params = new URLSearchParams(location.search);
 const WATCH_URL = params.get("url") || "";
 
-console.log("🔍 Watch URL:", WATCH_URL);
+console.log("Watch URL:", WATCH_URL);
 
 if(!WATCH_URL){
   renderError("URL tidak ditemukan", "Parameter 'url' wajib diisi.");
@@ -28,7 +28,7 @@ async function loadWatch(){
     const res = await fetch(`${API}?action=watch&url=${encodeURIComponent(WATCH_URL)}`);
     const data = await res.json();
 
-    console.log("🔍 Watch API Response:", data);
+    console.log("Watch API Response:", data);
 
     if(!data.status || !data.results){
       renderError("Gagal memuat", data.message || "Tidak bisa memuat episode.");
@@ -44,10 +44,10 @@ async function loadWatch(){
       return;
     }
 
-    document.title = (ep.title || "Anime") + " — ZerozxStream";
+    document.title = (ep.title || "Anime") + " — FortechStream";
     renderPlayer(ep);
   }catch(e){
-    console.error("❌ Watch error:", e);
+    console.error("Watch error:", e);
     renderError("Kesalahan koneksi", e.message || "Periksa koneksi kamu.");
   }
 }
@@ -243,15 +243,15 @@ function switchServer(index, btnEl){
 function changeEpisode(epNumber){
   if(!epNumber){ toast("Episode tidak tersedia"); return; }
   const ep = window.__ep;
-  if(!ep || !ep.series?.slug) {
+  if(!ep || !ep.series?.slug){
     toast("Tidak bisa ganti episode");
     return;
   }
 
-  const base = "https://oploverz.site";
+  const base = "https://ww2.animeindo.pro";
   const newUrl = `${base}/series/${ep.series.slug}/episode/${epNumber}`;
 
-  console.log("🔀 Change episode to:", newUrl);
+  console.log("Change episode to:", newUrl);
   window.location.href = `/anime/watch?url=${encodeURIComponent(newUrl)}`;
 }
 
@@ -259,7 +259,7 @@ function shareEpisode(){
   const url = location.href;
   const title = window.__ep?.title || "Anime";
   if(navigator.share){
-    navigator.share({ title, text: `Nonton ${title} di ZerozxStream`, url });
+    navigator.share({ title, text: `Nonton ${title} di FortechStream`, url });
   } else {
     navigator.clipboard.writeText(url);
     toast("Link disalin!");
@@ -274,9 +274,9 @@ function toast(msg){
     el = document.createElement("div");
     el.id = "toastEl";
     el.style.cssText = `position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(80px);
-      background:rgba(21,21,28,.96);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.08);
+      background:rgba(18,18,24,.96);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.08);
       padding:13px 22px;border-radius:14px;font-size:14px;font-weight:600;z-index:500;
-      transition:transform .4s;pointer-events:none;max-width:90vw;color:#f5f5f7`;
+      transition:transform .4s;pointer-events:none;max-width:90vw;color:#fafafa`;
     document.body.appendChild(el);
   }
   el.textContent = msg;
@@ -285,37 +285,37 @@ function toast(msg){
   toastTimer = setTimeout(()=>{ el.style.transform = "translateX(-50%) translateY(80px)"; }, 2400);
 }
 
-/* ---------- ERROR PAGE (404-style) ---------- */
+/* ---------- ERROR PAGE ---------- */
 function renderError(title, msg){
-  document.title = "Error — ZerozxStream";
+  document.title = "Error — FortechStream";
   main.innerHTML = `
     <style>
       .err-icon-404 {
         display:inline-flex;align-items:center;justify-content:center;
         width:100px;height:100px;border-radius:50%;
-        background:radial-gradient(circle at 30% 30%, rgba(229,9,20,.28), rgba(229,9,20,.06));
-        border:2px solid rgba(229,9,20,.4);color:#ff2233;
+        background:radial-gradient(circle at 30% 30%, rgba(0,102,255,.28), rgba(0,102,255,.06));
+        border:2px solid rgba(0,102,255,.4);color:#3b82f6;
         margin:0 auto 24px;position:relative;
         animation:pulseErr 2.4s ease-in-out infinite;
       }
       .err-icon-404::before {
         content:'';position:absolute;inset:-2px;border-radius:50%;
-        background:conic-gradient(from 0deg, transparent, #e50914, transparent 40%);
+        background:conic-gradient(from 0deg, transparent, #0066ff, transparent 40%);
         -webkit-mask:radial-gradient(farthest-side, transparent calc(100% - 2px), #000 calc(100% - 2px));
         mask:radial-gradient(farthest-side, transparent calc(100% - 2px), #000 calc(100% - 2px));
-        animation:spinErr 4s linear infinite;opacity:.8;
+        animation:spinErr 4s linear infinite;opacity:.85;
       }
       @keyframes spinErr { to { transform: rotate(360deg); } }
       @keyframes pulseErr {
-        0%, 100% { box-shadow: 0 0 0 0 rgba(229,9,20,.45); }
-        50% { box-shadow: 0 0 0 24px rgba(229,9,20,0); }
+        0%, 100% { box-shadow: 0 0 0 0 rgba(0,102,255,.45); }
+        50% { box-shadow: 0 0 0 24px rgba(0,102,255,0); }
       }
       .err-title-404 {
-        font-size:23px;font-weight:800;color:#f5f5f7;
+        font-size:23px;font-weight:800;color:#fafafa;
         margin:0 0 14px;letter-spacing:-.4px;
       }
       .err-desc-404 {
-        color:#92929e;font-size:15px;line-height:1.75;
+        color:#71717a;font-size:15px;line-height:1.75;
         margin:0 auto 30px;max-width:440px;
       }
       .err-actions-404 {
@@ -328,15 +328,15 @@ function renderError(title, msg){
         font-family:inherit;white-space:nowrap;
       }
       .err-btn-404.primary {
-        background:linear-gradient(135deg,#e50914,#ff2233);color:#fff;
-        box-shadow:0 10px 30px rgba(229,9,20,.5);
+        background:linear-gradient(135deg,#0066ff,#3b82f6);color:#fff;
+        box-shadow:0 10px 30px rgba(0,102,255,.5);
       }
       .err-btn-404.primary:hover {
-        transform:translateY(-3px);box-shadow:0 18px 45px rgba(229,9,20,.7);
+        transform:translateY(-3px);box-shadow:0 18px 45px rgba(0,102,255,.7);
       }
       .err-btn-404.ghost {
         background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);
-        color:#f5f5f7;
+        color:#fafafa;
       }
       .err-btn-404.ghost:hover {
         background:rgba(255,255,255,.13);transform:translateY(-3px);
@@ -347,11 +347,11 @@ function renderError(title, msg){
         font-family:'SF Mono','Courier New',monospace;font-size:11.5px;
         color:#8a8a96;word-break:break-all;text-align:left;
       }
-      .err-url-404 strong { color:#ff2233; }
+      .err-url-404 strong { color:#3b82f6; }
     </style>
 
     <div class="anime-watch-container" style="display:flex;align-items:center;justify-content:center;min-height:70vh;padding:20px">
-      <div style="max-width:580px;width:100%;text-align:center;padding:50px 32px 40px;background:linear-gradient(160deg, rgba(20,20,28,.85), rgba(10,10,15,.9));border:1px solid rgba(255,255,255,.08);border-radius:26px;box-shadow:0 30px 90px rgba(0,0,0,.75);position:relative;overflow:hidden">
+      <div style="max-width:580px;width:100%;text-align:center;padding:50px 32px 40px;background:linear-gradient(160deg, rgba(17,17,22,.85), rgba(5,5,7,.9));border:1px solid rgba(255,255,255,.08);border-radius:26px;box-shadow:0 30px 90px rgba(0,0,0,.8);position:relative;overflow:hidden">
 
         <div class="err-icon-404">
           <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="position:relative;z-index:1">
