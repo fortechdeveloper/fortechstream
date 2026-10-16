@@ -1,8 +1,8 @@
 /* =========================================================
-   ZerozxStream — app.js
+   FortechStream — app.js
    Frontend logic untuk index.html
    Backend: /api/movies
-   Creator: @Zerozx
+   Creator: FortechDev
    ========================================================= */
 
 const API = "/api/movies";
@@ -14,9 +14,9 @@ const heroEl = document.getElementById("hero");
 
 /* ---------- LocalStorage DB ---------- */
 const DB = {
-  FAV: "zerozx_favorites",
-  HIST: "zerozx_history",
-  SEARCH_HIST: "zerozx_search_history",
+  FAV: "fortech_favorites",
+  HIST: "fortech_history",
+  SEARCH_HIST: "fortech_search_history",
   get(key, fallback){ try{ return JSON.parse(localStorage.getItem(key)) ?? fallback; }catch{ return fallback; } },
   set(key, val){ try{ localStorage.setItem(key, JSON.stringify(val)); }catch{} },
 };
@@ -248,7 +248,7 @@ function setHero(m){
     `${m.rating?`<span class="score">★ ${Number(m.rating).toFixed(1)}</span>`:""}
      <span class="pill">HD</span>
      <span class="pill">${esc(m.year)}</span>
-     <span>ZerozxStream</span>`;
+     <span>FortechStream</span>`;
   document.getElementById("heroPlay").onclick = ()=>goPlay(m.slug, m.type || "film");
 }
 
@@ -445,7 +445,7 @@ function renderSearchTab(initialQuery=""){
     </div>
 
     <section class="search-section" id="searchResultSection">
-      <div class="search-section-title">🔥 Trending Sekarang</div>
+      <div class="search-section-title">Trending Sekarang</div>
       <div id="trendingGrid">${skeletonGrid(10)}</div>
     </section>
   `;
@@ -536,7 +536,7 @@ function renderFavorites(){
         <p>Simpan film dan serial favoritmu supaya gampang ditemukan lagi nanti.</p>
       </div>
       <section class="section" style="padding-top:20px">
-        ${emptyState("Belum ada favorit", "Tap ikon ❤ pada kartu film untuk menyimpannya di sini.")}
+        ${emptyState("Belum ada favorit", "Tap ikon hati pada kartu film untuk menyimpannya di sini.")}
       </section>
     `;
     return;
@@ -545,7 +545,7 @@ function renderFavorites(){
     <div class="tab-hero">
       <h1>Daftar <span class="red">Favorit</span></h1>
       <p>Film dan serial pilihanmu yang tersimpan.</p>
-      <div class="count"><span class="red">❤</span> ${list.length} judul tersimpan</div>
+      <div class="count"><span class="red">${list.length}</span> judul tersimpan</div>
     </div>
     <section class="section" style="padding-top:20px">
       <div class="grid">${list.map((m,i)=>cardHTML(m,i)).join("")}</div>
@@ -606,13 +606,13 @@ function renderProfile(){
   main.innerHTML = `
     <div class="tab-hero">
       <h1>Halo, <span class="red">Penonton</span></h1>
-      <p>Profil ZerozxStream kamu.</p>
+      <p>Profil FortechStream kamu.</p>
     </div>
     <section class="section" style="padding-top:20px;max-width:720px;margin:0 auto">
       <div style="background:var(--bg-2);border:1px solid var(--border);border-radius:20px;padding:32px;margin-bottom:24px;display:flex;align-items:center;gap:22px;flex-wrap:wrap">
-        <div style="width:84px;height:84px;border-radius:22px;background:linear-gradient(135deg,var(--red),#7a0410);display:grid;place-items:center;font-weight:900;font-size:34px;box-shadow:0 10px 30px var(--red-glow);flex-shrink:0">Z</div>
+        <div style="width:84px;height:84px;border-radius:22px;background:linear-gradient(135deg,var(--blue),var(--blue-2));display:grid;place-items:center;font-weight:900;font-size:34px;color:#fff;box-shadow:0 10px 30px var(--blue-glow);flex-shrink:0">F</div>
         <div style="flex:1;min-width:200px">
-          <h2 style="font-size:22px;font-weight:800;letter-spacing:-.5px;margin-bottom:6px">Penonton Zerozx</h2>
+          <h2 style="font-size:22px;font-weight:800;letter-spacing:-.5px;margin-bottom:6px">Penonton Fortech</h2>
           <p style="color:var(--muted);font-size:14px">Member sejak ${new Date().toLocaleDateString('id-ID',{month:'long',year:'numeric'})}</p>
         </div>
       </div>
@@ -620,44 +620,44 @@ function renderProfile(){
       <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:24px">
         <div style="background:var(--bg-2);border:1px solid var(--border);border-radius:16px;padding:20px;text-align:center">
           <div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;font-weight:700;margin-bottom:8px">Favorit</div>
-          <div style="font-size:30px;font-weight:900;color:var(--red-2);letter-spacing:-1px">${favCount}</div>
+          <div style="font-size:30px;font-weight:900;color:var(--blue-3);letter-spacing:-1px">${favCount}</div>
         </div>
         <div style="background:var(--bg-2);border:1px solid var(--border);border-radius:16px;padding:20px;text-align:center">
           <div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;font-weight:700;margin-bottom:8px">Riwayat</div>
-          <div style="font-size:30px;font-weight:900;color:var(--red-2);letter-spacing:-1px">${histCount}</div>
+          <div style="font-size:30px;font-weight:900;color:var(--blue-3);letter-spacing:-1px">${histCount}</div>
         </div>
         <div style="background:var(--bg-2);border:1px solid var(--border);border-radius:16px;padding:20px;text-align:center">
           <div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;font-weight:700;margin-bottom:8px">Pencarian</div>
-          <div style="font-size:30px;font-weight:900;color:var(--red-2);letter-spacing:-1px">${searchCount}</div>
+          <div style="font-size:30px;font-weight:900;color:var(--blue-3);letter-spacing:-1px">${searchCount}</div>
         </div>
       </div>
 
       <div style="background:var(--bg-2);border:1px solid var(--border);border-radius:16px;overflow:hidden">
-        <button onclick="window.location.href='/anime'" style="width:100%;padding:18px 22px;display:flex;align-items:center;gap:14px;border-bottom:1px solid var(--border);transition:background .2s" onmouseover="this.style.background='rgba(229,9,20,.08)'" onmouseout="this.style.background='transparent'">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--red-2)" stroke-width="2"><rect x="2" y="7" width="20" height="15" rx="2"/><polyline points="17 2 12 7 7 2"/><circle cx="12" cy="14" r="2"/></svg>
+        <button onclick="window.location.href='/anime'" style="width:100%;padding:18px 22px;display:flex;align-items:center;gap:14px;border-bottom:1px solid var(--border);transition:background .2s" onmouseover="this.style.background='rgba(0,102,255,.08)'" onmouseout="this.style.background='transparent'">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--blue-3)" stroke-width="2"><rect x="2" y="7" width="20" height="15" rx="2"/><polyline points="17 2 12 7 7 2"/><circle cx="12" cy="14" r="2"/></svg>
           <span style="flex:1;text-align:left;font-weight:600;font-size:15px">Nonton Anime</span>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
         </button>
-        <button onclick="routeToTab('search')" style="width:100%;padding:18px 22px;display:flex;align-items:center;gap:14px;border-bottom:1px solid var(--border);transition:background .2s" onmouseover="this.style.background='rgba(229,9,20,.08)'" onmouseout="this.style.background='transparent'">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--red-2)" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        <button onclick="routeToTab('search')" style="width:100%;padding:18px 22px;display:flex;align-items:center;gap:14px;border-bottom:1px solid var(--border);transition:background .2s" onmouseover="this.style.background='rgba(0,102,255,.08)'" onmouseout="this.style.background='transparent'">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--blue-3)" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
           <span style="flex:1;text-align:left;font-weight:600;font-size:15px">Cari Film</span>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
         </button>
-        <button onclick="routeToTab('favorites')" style="width:100%;padding:18px 22px;display:flex;align-items:center;gap:14px;border-bottom:1px solid var(--border);transition:background .2s" onmouseover="this.style.background='rgba(229,9,20,.08)'" onmouseout="this.style.background='transparent'">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--red-2)" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        <button onclick="routeToTab('favorites')" style="width:100%;padding:18px 22px;display:flex;align-items:center;gap:14px;border-bottom:1px solid var(--border);transition:background .2s" onmouseover="this.style.background='rgba(0,102,255,.08)'" onmouseout="this.style.background='transparent'">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--blue-3)" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
           <span style="flex:1;text-align:left;font-weight:600;font-size:15px">Buka Favorit</span>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
         </button>
-        <button onclick="routeToTab('history')" style="width:100%;padding:18px 22px;display:flex;align-items:center;gap:14px;transition:background .2s" onmouseover="this.style.background='rgba(229,9,20,.08)'" onmouseout="this.style.background='transparent'">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--red-2)" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l4 2"/></svg>
+        <button onclick="routeToTab('history')" style="width:100%;padding:18px 22px;display:flex;align-items:center;gap:14px;transition:background .2s" onmouseover="this.style.background='rgba(0,102,255,.08)'" onmouseout="this.style.background='transparent'">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--blue-3)" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l4 2"/></svg>
           <span style="flex:1;text-align:left;font-weight:600;font-size:15px">Buka Riwayat</span>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
         </button>
       </div>
 
       <div style="text-align:center;color:var(--muted);font-size:12px;margin-top:34px;line-height:1.7">
-        <b style="color:var(--red-2)">ZerozxStream</b> v2.0 — Beta<br>
-        Powered by <b style="color:#fff">Zerozx API</b> by @Zerozx
+        <b style="color:var(--blue-3)">FortechStream</b> v2.0 — Beta<br>
+        Powered by <b style="color:#fff">FortechStream API</b> — FortechDev
       </div>
     </section>
   `;
@@ -676,7 +676,7 @@ function toggleFav(slug, btnEl){
     const svg = btnEl.querySelector("svg");
     if(svg) svg.setAttribute("fill", added ? "currentColor" : "none");
   }
-  toast(added ? "Ditambahkan ke favorit ❤" : "Dihapus dari favorit");
+  toast(added ? "Ditambahkan ke favorit" : "Dihapus dari favorit");
   if(currentTab === "favorites") renderFavorites();
 }
 
