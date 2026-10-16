@@ -1,0 +1,18 @@
+{
+  "version": 2,
+  "rewrites": [
+    { "source": "/api/movies", "destination": "/api/movies" },
+    { "source": "/api/stream", "destination": "/api/stream" },
+    { "source": "/api/anime",  "destination": "/api/anime" },
+    { "source": "/play/:type/:id", "destination": "/play.html" },
+    { "source": "/anime/watch",  "destination": "/anime-watch.html" },
+    { "source": "/anime/search", "destination": "/anime.html" },
+    { "source": "/anime",        "destination": "/anime.html" },
+    { "source": "/home",      "destination": "/index.html" },
+    { "source": "/search",    "destination": "/index.html" },
+    { "source": "/favorites", "destination": "/index.html" },
+    { "source": "/history",   "destination": "/index.html" },
+    { "source": "/profile",   "destination": "/index.html" },
+    { "source": "/((?!.*\\.).*)", "destination": "/404.html" }
+  ]
+}
