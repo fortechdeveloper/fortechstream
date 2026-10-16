@@ -1,16 +1,16 @@
 /* =========================================================
-   ZerozxStream — play.js
+   FortechStream — play.js
    Halaman Player Film/Serial
    URL: /play/:type/:id
    API: /api/stream?id=...&type=...
-   Creator: @Zerozx
+   Creator: FortechDev
    ========================================================= */
 
 const API = "/api/stream";
 const main = document.getElementById("main");
 const DB = {
-  HIST: "zerozx_history",
-  FAV: "zerozx_favorites",
+  HIST: "fortech_history",
+  FAV: "fortech_favorites",
   get(k,f){ try{return JSON.parse(localStorage.getItem(k)) ?? f}catch{return f} },
   set(k,v){ try{localStorage.setItem(k,JSON.stringify(v))}catch{} },
 };
@@ -46,12 +46,12 @@ if(!ID){
 
 /* ---------- Load data ---------- */
 async function loadPlayer(){
-  document.title = "Memuat... — ZerozxStream";
+  document.title = "Memuat... — FortechStream";
   try{
     const res = await fetch(`${API}?id=${encodeURIComponent(ID)}&type=${encodeURIComponent(TYPE)}`);
     const data = await res.json();
 
-    console.log("🔍 Play API Response:", data);
+    console.log("Play API Response:", data);
 
     if(data.status === false){
       renderError("Gagal memuat", data.message || "Tidak bisa memuat data film.");
@@ -75,11 +75,11 @@ async function loadPlayer(){
       movie.streams = [{ name: "Server Utama", url: primaryIframe }];
     }
 
-    document.title = movie.title + " — ZerozxStream";
+    document.title = movie.title + " — FortechStream";
     history_add(movie);
     renderPlayerPage(movie);
   }catch(e){
-    console.error("❌ Play error:", e);
+    console.error("Play error:", e);
     renderError("Kesalahan koneksi", e.message || "Periksa koneksi internet kamu.");
   }
 }
@@ -128,7 +128,7 @@ function renderPlayerPage(movie){
     ` : ""}
 
     <div class="info">
-      ${movie.backdrop ? `<div class="info-banner" style="background-image:url('${esc(imgUrl(movie.backdrop))}')"></div>` : `<div class="info-banner" style="background:linear-gradient(135deg,#1a1a22,#0d0d12)"></div>`}
+      ${movie.backdrop ? `<div class="info-banner" style="background-image:url('${esc(imgUrl(movie.backdrop))}')"></div>` : `<div class="info-banner" style="background:linear-gradient(135deg,#16161c,#0a0a0e)"></div>`}
       <div class="info-body">
         ${movie.poster ? `
           <div class="info-poster">
@@ -220,7 +220,7 @@ function playStream(index){
   box.innerHTML = "";
   box.appendChild(iframe);
 
-  // Auto-hide loading setelah 3 detik (jangan tunggu onload yang kadang lambat)
+  // Auto-hide loading setelah 3 detik
   setTimeout(hideLoading, 3000);
 }
 
@@ -277,7 +277,7 @@ function shareMovie(){
   if(!movie) return;
   const url = location.href;
   if(navigator.share){
-    navigator.share({ title: movie.title, text: "Nonton " + movie.title + " di ZerozxStream", url });
+    navigator.share({ title: movie.title, text: "Nonton " + movie.title + " di FortechStream", url });
   } else {
     navigator.clipboard.writeText(url);
     toast("Link disalin!");
@@ -292,9 +292,9 @@ function toast(msg){
     el = document.createElement("div");
     el.id = "toastEl";
     el.style.cssText = `position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(80px);
-      background:rgba(21,21,28,.96);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.08);
+      background:rgba(18,18,24,.96);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.08);
       padding:13px 22px;border-radius:14px;font-size:14px;font-weight:600;z-index:500;
-      transition:transform .4s;pointer-events:none;max-width:90vw;color:#f5f5f7`;
+      transition:transform .4s;pointer-events:none;max-width:90vw;color:#fafafa`;
     document.body.appendChild(el);
   }
   el.textContent = msg;
@@ -312,37 +312,37 @@ function goBack(){
   }
 }
 
-/* ---------- ERROR PAGE (404-style) ---------- */
+/* ---------- ERROR PAGE ---------- */
 function renderError(title, msg){
-  document.title = "Error — ZerozxStream";
+  document.title = "Error — FortechStream";
   main.innerHTML = `
     <style>
       .err-icon-404 {
         display:inline-flex;align-items:center;justify-content:center;
         width:100px;height:100px;border-radius:50%;
-        background:radial-gradient(circle at 30% 30%, rgba(229,9,20,.28), rgba(229,9,20,.06));
-        border:2px solid rgba(229,9,20,.4);color:#ff2233;
+        background:radial-gradient(circle at 30% 30%, rgba(0,102,255,.28), rgba(0,102,255,.06));
+        border:2px solid rgba(0,102,255,.4);color:#3b82f6;
         margin:0 auto 24px;position:relative;
         animation:pulseErr 2.4s ease-in-out infinite;
       }
       .err-icon-404::before {
         content:'';position:absolute;inset:-2px;border-radius:50%;
-        background:conic-gradient(from 0deg, transparent, #e50914, transparent 40%);
+        background:conic-gradient(from 0deg, transparent, #0066ff, transparent 40%);
         -webkit-mask:radial-gradient(farthest-side, transparent calc(100% - 2px), #000 calc(100% - 2px));
         mask:radial-gradient(farthest-side, transparent calc(100% - 2px), #000 calc(100% - 2px));
-        animation:spinErr 4s linear infinite;opacity:.8;
+        animation:spinErr 4s linear infinite;opacity:.85;
       }
       @keyframes spinErr { to { transform: rotate(360deg); } }
       @keyframes pulseErr {
-        0%, 100% { box-shadow: 0 0 0 0 rgba(229,9,20,.45); }
-        50% { box-shadow: 0 0 0 24px rgba(229,9,20,0); }
+        0%, 100% { box-shadow: 0 0 0 0 rgba(0,102,255,.45); }
+        50% { box-shadow: 0 0 0 24px rgba(0,102,255,0); }
       }
       .err-title-404 {
-        font-size:23px;font-weight:800;color:#f5f5f7;
+        font-size:23px;font-weight:800;color:#fafafa;
         margin:0 0 14px;letter-spacing:-.4px;
       }
       .err-desc-404 {
-        color:#92929e;font-size:15px;line-height:1.75;
+        color:#71717a;font-size:15px;line-height:1.75;
         margin:0 auto 30px;max-width:440px;
       }
       .err-actions-404 {
@@ -355,15 +355,15 @@ function renderError(title, msg){
         font-family:inherit;white-space:nowrap;
       }
       .err-btn-404.primary {
-        background:linear-gradient(135deg,#e50914,#ff2233);color:#fff;
-        box-shadow:0 10px 30px rgba(229,9,20,.5);
+        background:linear-gradient(135deg,#0066ff,#3b82f6);color:#fff;
+        box-shadow:0 10px 30px rgba(0,102,255,.5);
       }
       .err-btn-404.primary:hover {
-        transform:translateY(-3px);box-shadow:0 18px 45px rgba(229,9,20,.7);
+        transform:translateY(-3px);box-shadow:0 18px 45px rgba(0,102,255,.7);
       }
       .err-btn-404.ghost {
         background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);
-        color:#f5f5f7;
+        color:#fafafa;
       }
       .err-btn-404.ghost:hover {
         background:rgba(255,255,255,.13);transform:translateY(-3px);
@@ -374,11 +374,11 @@ function renderError(title, msg){
         font-family:'SF Mono','Courier New',monospace;font-size:11.5px;
         color:#8a8a96;word-break:break-all;text-align:left;
       }
-      .err-url-404 strong { color:#ff2233; }
+      .err-url-404 strong { color:#3b82f6; }
     </style>
 
     <div style="display:flex;align-items:center;justify-content:center;min-height:70vh;padding:20px">
-      <div style="max-width:580px;width:100%;text-align:center;padding:50px 32px 40px;background:linear-gradient(160deg, rgba(20,20,28,.85), rgba(10,10,15,.9));border:1px solid rgba(255,255,255,.08);border-radius:26px;box-shadow:0 30px 90px rgba(0,0,0,.75);position:relative;overflow:hidden">
+      <div style="max-width:580px;width:100%;text-align:center;padding:50px 32px 40px;background:linear-gradient(160deg, rgba(17,17,22,.85), rgba(5,5,7,.9));border:1px solid rgba(255,255,255,.08);border-radius:26px;box-shadow:0 30px 90px rgba(0,0,0,.8);position:relative;overflow:hidden">
 
         <div class="err-icon-404">
           <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="position:relative;z-index:1">
