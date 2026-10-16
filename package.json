@@ -1,0 +1,14 @@
+{
+  "name": "zerozx-stream",
+  "version": "2.0.0",
+  "description": "ZerozxStream — Platform streaming film, serial, dan anime. Creator: @Zerozx",
+  "private": true,
+  "author": "@Zerozx",
+  "license": "MIT",
+  "dependencies": {
+    "cheerio": "^1.0.0"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
