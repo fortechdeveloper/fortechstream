@@ -1,8 +1,8 @@
 /* =========================================================
-   ZerozxStream — anime.js
-   Halaman Anime (Oploverz)
+   FortechStream — anime.js
+   Halaman Anime (AnimeIndo)
    API: /api/anime?action=...
-   Creator: @Zerozx
+   Creator: FortechDev
    ========================================================= */
 
 const API = "/api/anime";
@@ -14,9 +14,9 @@ const heroEl = document.getElementById("hero");
 
 /* ---------- DB ---------- */
 const DB = {
-  FAV: "zerozx_anime_favorites",
-  HIST: "zerozx_anime_history",
-  SEARCH_HIST: "zerozx_anime_search_history",
+  FAV: "fortech_anime_favorites",
+  HIST: "fortech_anime_history",
+  SEARCH_HIST: "fortech_anime_search_history",
   get(k, f){ try{ return JSON.parse(localStorage.getItem(k)) ?? f; }catch{ return f; } },
   set(k, v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch{} },
 };
@@ -203,7 +203,7 @@ async function loadAnimeHome(){
 
   try{
     const r = await api({ action: "home" });
-    console.log("🎌 Anime home response:", r);
+    console.log("Anime home response:", r);
 
     if(!r.status || !r.results){
       document.getElementById("trending-wrap").innerHTML =
@@ -223,7 +223,7 @@ async function loadAnimeHome(){
       bg.style.backgroundImage = `url('${esc(f.image)}')`;
       document.getElementById("heroTitle").textContent = f.title || "Anime";
       document.getElementById("heroDesc").textContent = f.description || "Streaming anime subtitle Indonesia.";
-      document.getElementById("heroMeta").innerHTML = `<span class="pill">HD</span><span class="pill">Sub Indo</span><span>Oploverz</span>`;
+      document.getElementById("heroMeta").innerHTML = `<span class="pill">HD</span><span class="pill">Sub Indo</span><span>AnimeIndo</span>`;
       const heroPlay = document.getElementById("heroPlay");
       if(heroPlay && f.url) heroPlay.onclick = () => openAnimeDetail(f.url);
     }
@@ -252,7 +252,7 @@ async function loadAnimeHome(){
       nw.innerHTML = emptyAnimeState("Belum ada tayangan baru");
     }
   }catch(e){
-    console.error("❌ Anime home error:", e);
+    console.error("Anime home error:", e);
     document.getElementById("trending-wrap").innerHTML = emptyAnimeState("Gagal memuat", e.message);
     document.getElementById("latest-wrap").innerHTML = "";
     document.getElementById("newly-wrap").innerHTML = "";
@@ -277,7 +277,7 @@ async function openAnimeDetail(url){
 
   try{
     const r = await api({ action: "detail", url });
-    console.log("🎌 Anime detail response:", r);
+    console.log("Anime detail response:", r);
 
     if(!r.status || !r.results){
       content.innerHTML = `<div style="padding:40px;text-align:center"><button class="modal-close" onclick="closeAnimeModal()">×</button><h3>Gagal memuat detail</h3><p style="color:var(--muted)">${esc(r.message||"Error")}</p></div>`;
@@ -321,15 +321,15 @@ async function openAnimeDetail(url){
               Episode belum tersedia di scraper. Buka langsung di sumber:
             </p>
             <a href="${esc(d.url)}" target="_blank" rel="noopener"
-               style="display:inline-flex;align-items:center;gap:8px;padding:10px 18px;background:linear-gradient(135deg,var(--red),var(--red-2));color:#fff;border-radius:10px;font-weight:700;text-decoration:none">
-              Buka di Oploverz
+               style="display:inline-flex;align-items:center;gap:8px;padding:10px 18px;background:linear-gradient(135deg,var(--blue),var(--blue-2));color:#fff;border-radius:10px;font-weight:700;text-decoration:none">
+              Buka di Sumber
             </a>
           </div>
         `}
       </div>
     `;
   }catch(e){
-    console.error("❌ Detail error:", e);
+    console.error("Detail error:", e);
     content.innerHTML = `
       <div style="padding:40px;text-align:center">
         <button class="modal-close" onclick="closeAnimeModal()">×</button>
@@ -361,7 +361,7 @@ function toggleAnimeFav(url, btnEl){
     const svg = btnEl.querySelector("svg");
     if(svg) svg.setAttribute("fill", added ? "currentColor" : "none");
   }
-  toast(added ? "Ditambahkan ke favorit ❤" : "Dihapus dari favorit");
+  toast(added ? "Ditambahkan ke favorit" : "Dihapus dari favorit");
 }
 
 /* ---------- SEARCH ---------- */
@@ -370,7 +370,7 @@ function renderAnimeSearch(initialQuery=""){
   main.innerHTML = `
     <div class="search-hero">
       <h1>Cari <span class="red">Anime</span></h1>
-      <p class="sub">Temukan ribuan judul anime dari Oploverz</p>
+      <p class="sub">Temukan ribuan judul anime subtitle Indonesia</p>
 
       <div class="big-search ${initialQuery?'has-value':''}" id="bigSearchWrap">
         <svg class="lead" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
@@ -429,7 +429,7 @@ async function doAnimeSearch(q){
 
   try{
     const r = await api({ action: "search", q });
-    console.log("🎌 Anime search response:", r);
+    console.log("Anime search response:", r);
     const list = Array.isArray(r.results?.data) ? r.results.data : [];
     const wrap = document.getElementById("searchResultGrid");
     if(!list.length){ wrap.innerHTML = emptyAnimeState("Tidak ditemukan", `Tidak ada hasil untuk "${q}"`); return; }
